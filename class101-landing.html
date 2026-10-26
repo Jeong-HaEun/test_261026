@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>첫 구독 50% 할인</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --bg: #0B0B0C;
+    --surface: #151517;
+    --surface-2: #1D1D20;
+    --line: #2A2A2F;
+    --text: #FFFFFF;
+    --muted: #A3A3AD;
+    --red: #FF5A00;
+    --red-bright: #FF7A2E;
+    --red-deep: #B23D00;
+    --radius: 18px;
+    --max: 1120px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.5;
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  .red { color: var(--red-bright); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- 상단 띠 배너 ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    background: #FFFFFF; color: #0B0B0C;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 2px 0 var(--red), 0 8px 24px rgba(0,0,0,.35);
+  }
+  .topbar .wrap {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    min-height: 44px; flex-wrap: wrap; padding-top: 6px; padding-bottom: 6px;
+  }
+  .topbar strong { font-weight: 800; color: #D94A00; }
+  .topbar .timer { background: #0B0B0C; color: #fff; padding: 4px 12px; border-radius: 999px; }
+  .topbar .coupon-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--red); color: #fff; font-weight: 800; font-size: 14px;
+    padding: 7px 14px; border-radius: 999px; white-space: nowrap;
+    box-shadow: 0 4px 12px -4px rgba(255,90,0,.8);
+    animation: nudge 2.4s ease-in-out infinite;
+  }
+  .topbar .coupon-cta:hover { background: var(--red-bright); }
+  .topbar .coupon-cta:focus-visible { outline: 3px solid #0B0B0C; outline-offset: 2px; }
+  .topbar .coupon-cta svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes nudge { 0%, 70%, 100% { transform: none; } 80% { transform: translateY(-2px); } 90% { transform: translateY(1px); } }
+
+  /* ---------- 헤더 ---------- */
+  header.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-weight: 900; font-size: 20px; letter-spacing: -0.02em; }
+  .logo span { color: var(--red-bright); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--red); color: #fff; font-weight: 800;
+    border-radius: 14px; padding: 14px 22px; font-size: 16px;
+    transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+    box-shadow: 0 10px 30px -10px rgba(255,90,0,.7);
+  }
+  .btn:hover { background: var(--red-bright); transform: translateY(-2px); }
+  .btn:active { transform: translateY(0); }
+  .btn:focus-visible, .persona-tab:focus-visible, .faq summary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  .btn-sm { padding: 10px 16px; font-size: 14px; border-radius: 12px; box-shadow: none; }
+  .btn-lg { padding: 20px 28px; font-size: 19px; border-radius: 16px; width: 100%; }
+  .btn .arrow { transition: transform .15s ease; }
+  .btn:hover .arrow { transform: translateX(4px); }
+  .pulse { animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,90,0,.55), 0 10px 30px -10px rgba(255,90,0,.7); }
+    50% { box-shadow: 0 0 0 12px rgba(255,90,0,0), 0 10px 30px -10px rgba(255,90,0,.7); }
+  }
+
+  /* ---------- 히어로 ---------- */
+  .hero { position: relative; padding: 56px 0 80px; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: -20% -10% auto auto; width: 720px; height: 720px;
+    background: radial-gradient(circle, rgba(255,90,0,.35), transparent 65%);
+    pointer-events: none;
+  }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid rgba(255,122,46,.5); color: var(--red-bright);
+    padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 700;
+    background: rgba(255,90,0,.08);
+  }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red-bright); animation: blink 1.2s infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+  .hero h1 {
+    margin-top: 20px;
+    font-size: clamp(40px, 6.4vw, 76px); line-height: 1.08; font-weight: 900; letter-spacing: -0.035em;
+  }
+  .hero h1 .big { display: block; font-size: 1.35em; color: var(--red-bright); letter-spacing: -0.05em; }
+  .hero p.sub { margin-top: 20px; font-size: clamp(17px, 2vw, 20px); color: #D4D4DA; max-width: 34em; }
+  .hero .cta-row { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; max-width: 440px; }
+  .assure { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+  .assure span::before { content: "✓ "; color: var(--red-bright); font-weight: 800; }
+
+  /* 쿠폰 카드 */
+  .coupon {
+    position: relative;
+    background: linear-gradient(150deg, var(--red) 0%, var(--red-deep) 100%);
+    border-radius: 26px; padding: 32px 30px 28px;
+    box-shadow: 0 40px 80px -30px rgba(255,90,0,.65);
+    transform: rotate(-2deg);
+    transition: transform .3s ease;
+  }
+  .coupon:hover { transform: rotate(0deg) scale(1.01); }
+  .coupon::before, .coupon::after {
+    content: ""; position: absolute; top: 62%; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--bg); transform: translateY(-50%);
+  }
+  .coupon::before { left: -17px; }
+  .coupon::after { right: -17px; }
+  .coupon .label { font-size: 15px; font-weight: 700; opacity: .9; }
+  .coupon .pct { font-size: clamp(84px, 12vw, 132px); font-weight: 900; line-height: .95; letter-spacing: -0.06em; margin-top: 6px; }
+  .coupon .pct small { font-size: .38em; letter-spacing: -0.02em; margin-left: 6px; }
+  .coupon .price { margin-top: 14px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .coupon .price del { opacity: .65; font-size: 17px; }
+  .coupon .price strong { font-size: 30px; font-weight: 900; }
+  .coupon .price em { font-style: normal; font-size: 15px; opacity: .85; }
+  .coupon .perf { border-top: 2px dashed rgba(255,255,255,.4); margin: 22px -8px 18px; }
+  .coupon .left-time { font-size: 14px; font-weight: 600; opacity: .9; }
+  .countdown { display: flex; gap: 8px; margin-top: 10px; }
+  .countdown .cell { flex: 1; background: rgba(0,0,0,.3); border-radius: 12px; padding: 10px 4px; text-align: center; }
+  .countdown .cell b { display: block; font-size: 26px; font-weight: 900; line-height: 1.1; }
+  .countdown .cell i { font-style: normal; font-size: 12px; opacity: .8; }
+  .stock { margin-top: 18px; font-size: 14px; font-weight: 600; }
+  .stock .bar { height: 8px; background: rgba(0,0,0,.3); border-radius: 99px; margin-top: 8px; overflow: hidden; }
+  .stock .bar span { display: block; height: 100%; width: 0; background: #fff; border-radius: 99px; transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+
+  /* ---------- 섹션 공통 ---------- */
+  section.block { padding: 88px 0; }
+  .kicker { color: var(--red-bright); font-weight: 800; font-size: 15px; letter-spacing: .02em; }
+  .title { margin-top: 10px; font-size: clamp(30px, 4.2vw, 46px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; }
+  .lead { margin-top: 14px; color: var(--muted); font-size: 18px; }
+  .center { text-align: center; }
+  .center .lead { margin-left: auto; margin-right: auto; max-width: 36em; }
+
+  /* ---------- 혜택 3줄 요약 ---------- */
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+  .benefits.two { grid-template-columns: repeat(2, 1fr); max-width: 860px; margin-left: auto; margin-right: auto; }
+  .benefit { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 24px; }
+  .benefit .n { font-size: 44px; font-weight: 900; letter-spacing: -0.04em; color: var(--red-bright); line-height: 1; }
+  .benefit h3 { margin-top: 14px; font-size: 20px; font-weight: 800; }
+  .benefit p { margin-top: 6px; color: var(--muted); font-size: 15px; }
+
+  /* ---------- 페르소나 ---------- */
+  .persona-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 40px; }
+  .persona-tab {
+    text-align: left; background: var(--surface); border: 2px solid var(--line);
+    border-radius: var(--radius); padding: 20px; transition: border-color .15s, background .15s, transform .15s;
+  }
+  .persona-tab:hover { border-color: #4a4a52; transform: translateY(-2px); }
+  .persona-tab[aria-selected="true"] { border-color: var(--red); background: linear-gradient(180deg, rgba(255,90,0,.16), var(--surface)); }
+  .persona-tab .who { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .persona-tab[aria-selected="true"] .who { color: var(--red-bright); }
+  .persona-tab .q { display: block; margin-top: 6px; font-size: 19px; font-weight: 800; line-height: 1.35; }
+
+  .persona-panel {
+    margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+    padding: 36px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 36px; align-items: center;
+  }
+  .persona-panel h3 { font-size: clamp(26px, 3.2vw, 34px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.25; }
+  .persona-panel .desc { margin-top: 12px; color: #D4D4DA; font-size: 17px; }
+  .persona-panel .deal {
+    margin-top: 22px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    background: rgba(255,90,0,.12); border: 1px solid rgba(255,90,0,.45); border-radius: 14px; padding: 14px 16px;
+  }
+  .persona-panel .deal b { font-size: 22px; font-weight: 900; color: var(--red-bright); }
+  .persona-panel .deal span { font-size: 15px; color: #E5E5EA; }
+  .persona-panel .btn { margin-top: 18px; }
+  .classes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .class-card { background: var(--surface-2); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .class-card .thumb { position: relative; aspect-ratio: 16/10; display: flex; align-items: flex-end; padding: 12px; font-weight: 900; font-size: 20px; letter-spacing: -0.03em; overflow: hidden; }
+  .class-card .thumb svg { position: absolute; right: -6px; top: -6px; width: 58%; height: auto; stroke: rgba(255,255,255,.9); opacity: .95; fill: none; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .class-card .thumb .k { position: relative; text-shadow: 0 2px 10px rgba(0,0,0,.35); }
+
+  /* 아이콘 */
+  [data-icon] svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .ic { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: rgba(255,90,0,.14); color: var(--red-bright); padding: 12px; margin-bottom: 14px; }
+
+  /* 가격 비교 그림: 한 개 vs 전부 */
+  .viz { display: grid; gap: 6px; margin-top: 16px; }
+  .viz.one { grid-template-columns: repeat(6, 1fr); }
+  .viz.all { grid-template-columns: repeat(6, 1fr); }
+  .viz .t { aspect-ratio: 1; border-radius: 9px; background: var(--surface-2); border: 1px dashed #3a3a40; }
+  .viz .t.on { border: 0; background: linear-gradient(135deg, var(--red), var(--red-deep)); color: #fff; padding: 22%; }
+  .viz.all .t.on:nth-child(3n+2) { background: linear-gradient(135deg, #2B2B30, #0B0B0C); color: var(--red-bright); }
+  .viz-cap { margin-top: 8px; font-size: 13px; color: var(--muted); }
+  .class-card .meta { padding: 12px 14px 14px; }
+  .class-card .meta b { display: block; font-size: 15px; font-weight: 700; line-height: 1.35; }
+  .class-card .meta span { font-size: 13px; color: var(--muted); }
+  .fade-in { animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- 가격 비교 ---------- */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 44px; max-width: 860px; margin-left: auto; margin-right: auto; }
+  .plan { border-radius: 22px; padding: 30px; border: 1px solid var(--line); background: var(--surface); }
+  .plan.best { border: 2px solid var(--red); background: linear-gradient(180deg, rgba(255,90,0,.18), var(--surface) 60%); position: relative; }
+  .plan.best .tag { position: absolute; top: -14px; left: 24px; background: var(--red); font-size: 13px; font-weight: 800; padding: 5px 12px; border-radius: 999px; }
+  .plan h3 { font-size: 18px; font-weight: 800; color: var(--muted); }
+  .plan.best h3 { color: #fff; }
+  .plan .amount { margin-top: 10px; font-size: 40px; font-weight: 900; letter-spacing: -0.03em; }
+  .plan .amount small { font-size: 16px; font-weight: 600; color: var(--muted); margin-left: 4px; }
+  .plan ul { list-style: none; margin-top: 18px; display: grid; gap: 10px; font-size: 15px; }
+  .plan li { display: flex; gap: 8px; color: #D4D4DA; }
+  .plan li::before { content: "–"; color: var(--muted); }
+  .plan.best li::before { content: "✓"; color: var(--red-bright); font-weight: 900; }
+  .plan .btn { margin-top: 24px; width: 100%; }
+
+  /* ---------- 가격 앵커: 아메리카노 두 잔 ---------- */
+  .pill { display: inline-block; background: rgba(255,90,0,.16); color: var(--red-bright); font-size: 14px; font-weight: 800; padding: 6px 14px; border-radius: 999px; }
+  .big-title { margin-top: 16px; font-size: clamp(32px, 5vw, 54px); }
+  .anchor { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr 1.08fr; gap: 16px; align-items: stretch; }
+  .a-card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px 24px; }
+  .a-card .ic { width: 44px; height: 44px; padding: 10px; margin-bottom: 12px; }
+  .a-label { font-size: 15px; font-weight: 700; color: #D4D4DA; }
+  .a-price { margin-top: 6px; font-size: clamp(30px, 3.6vw, 42px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; }
+  .a-desc { margin-top: 6px; font-size: 14px; color: var(--muted); }
+  .a-card.best { background: linear-gradient(150deg, var(--red), var(--red-deep)); border: 0; transform: translateY(-6px); box-shadow: 0 30px 60px -28px rgba(255,90,0,.9); }
+  .a-card.best .ic { background: rgba(0,0,0,.2); color: #fff; }
+  .a-card.best .a-label, .a-card.best .a-desc { color: rgba(255,255,255,.92); }
+  .a-day { margin-top: 14px; padding-top: 12px; border-top: 2px dashed rgba(255,255,255,.45); font-size: 20px; font-weight: 900; }
+  .a-bar { margin-top: 20px; background: #000; border: 1px solid var(--line); border-radius: 20px; padding: 16px 16px 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-size: 16px; font-weight: 700; }
+  .a-bar .btn { flex-shrink: 0; }
+
+  /* ---------- 후기 ---------- */
+  .reviews { margin-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .review { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; }
+  .stars { color: #FFC531; font-size: 18px; letter-spacing: 2px; }
+  .review blockquote { margin-top: 12px; font-size: 16px; line-height: 1.6; color: #EDEDF0; flex: 1; }
+  .review figcaption { margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .who-tag { display: inline-block; margin-right: 8px; background: rgba(255,90,0,.16); color: var(--red-bright); font-weight: 800; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
+
+  /* ---------- 진행 순서 ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; counter-reset: s; }
+  .step { position: relative; padding: 26px 24px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+  .step::before { counter-increment: s; content: "STEP " counter(s); font-size: 13px; font-weight: 800; color: var(--red-bright); }
+  .step h3 { margin-top: 8px; font-size: 19px; font-weight: 800; }
+  .step p { margin-top: 6px; font-size: 15px; color: var(--muted); }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 780px; margin: 40px auto 0; display: grid; gap: 10px; }
+  .faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  .faq summary { list-style: none; cursor: pointer; padding: 20px 22px; font-weight: 700; font-size: 17px; display: flex; justify-content: space-between; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; color: var(--red-bright); font-weight: 900; font-size: 22px; line-height: 1; transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { padding: 0 22px 20px; color: var(--muted); font-size: 15px; }
+
+  /* ---------- 마지막 CTA ---------- */
+  .final { padding: 96px 0; background: linear-gradient(160deg, var(--red) 0%, var(--red-deep) 70%, #3A1500 100%); text-align: center; }
+  .final h2 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 900; letter-spacing: -0.035em; line-height: 1.15; }
+  .final p { margin-top: 14px; font-size: 18px; opacity: .92; }
+  .final .countdown { max-width: 420px; margin: 28px auto 0; }
+  .final .btn { margin-top: 28px; background: #fff; color: var(--red); max-width: 440px; box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); }
+  .final .btn:hover { background: #f1f1f1; }
+
+  footer { padding: 36px 0 120px; color: #6E6E78; font-size: 13px; text-align: center; }
+
+  /* ---------- 모바일 하단 고정 CTA ---------- */
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: rgba(11,11,12,.92); backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    transform: translateY(110%); transition: transform .3s ease;
+  }
+  .sticky-cta.show { transform: none; }
+  .sticky-cta .inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+  .sticky-cta .txt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.35; }
+  .sticky-cta .txt b { display: block; font-size: 16px; font-weight: 900; }
+  .sticky-cta .txt > span { color: var(--muted); }
+  .sticky-cta .btn { flex-shrink: 0; padding: 14px 20px; }
+
+  /* ---------- 구독 신청 모달 ---------- */
+  .modal { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .modal.open { display: flex; }
+  .modal .backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.75); backdrop-filter: blur(4px); }
+  .sheet {
+    position: relative; width: 100%; max-width: 440px; max-height: calc(100vh - 32px); overflow-y: auto;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 28px;
+    animation: pop .25s cubic-bezier(.2,.9,.3,1.2);
+  }
+  @keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+  .sheet .close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; font-size: 22px; color: var(--muted); }
+  .sheet .close:hover { background: var(--surface-2); color: #fff; }
+  .sheet .mini-coupon { margin-top: 26px; background: linear-gradient(140deg, var(--red), var(--red-deep)); border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .sheet .mini-coupon b { font-size: 34px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+  .sheet .mini-coupon span { font-size: 13px; text-align: right; opacity: .92; }
+  .sheet h2 { margin-top: 20px; font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+  .sheet .hint { margin-top: 4px; font-size: 14px; color: var(--muted); }
+  .field { margin-top: 16px; display: grid; gap: 6px; }
+  .field label { font-size: 14px; font-weight: 700; }
+  .field input, .field select {
+    width: 100%; background: var(--bg); color: #fff; border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 14px; font: inherit; font-size: 16px;
+  }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--red-bright); box-shadow: 0 0 0 3px rgba(255,90,0,.25); }
+  .field .err { font-size: 13px; color: var(--red-bright); min-height: 0; }
+  .agree { margin-top: 16px; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: #D4D4DA; }
+  .agree input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--red); flex-shrink: 0; }
+  .sheet .btn { margin-top: 20px; width: 100%; }
+  .summary { margin-top: 18px; padding: 14px 16px; background: var(--bg); border-radius: 12px; font-size: 14px; display: grid; gap: 6px; }
+  .summary div { display: flex; justify-content: space-between; color: var(--muted); }
+  .summary div.total { color: #fff; font-weight: 800; font-size: 16px; border-top: 1px solid var(--line); padding-top: 8px; margin-top: 2px; }
+  .summary div.total b { color: var(--red-bright); }
+  .success { text-align: center; padding: 10px 0 4px; }
+  .success .check { width: 72px; height: 72px; border-radius: 50%; background: var(--red); display: grid; place-items: center; margin: 0 auto; font-size: 36px; font-weight: 900; }
+  .success h2 { margin-top: 18px; }
+  .success .applied { margin-top: 18px; border: 2px dashed var(--red); border-radius: 14px; padding: 14px; }
+  .success .applied b { display: block; font-size: 26px; font-weight: 900; color: var(--red-bright); }
+  .success .applied > span { display: block; font-size: 13px; color: var(--muted); }
+
+  /* ---------- 반응형 ---------- */
+  @media (max-width: 900px) {
+    .hero { padding: 36px 0 64px; }
+    .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .coupon { transform: none; width: 100%; max-width: 520px; justify-self: center; }
+    .persona-panel { grid-template-columns: 1fr; padding: 26px 22px; gap: 26px; }
+    .benefits, .benefits.two, .steps { grid-template-columns: 1fr; }
+    .compare { grid-template-columns: 1fr; }
+    .anchor, .reviews { grid-template-columns: 1fr; }
+    .a-card.best { transform: none; }
+    .a-card { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; padding: 20px 18px; }
+    .a-card .ic { grid-row: 1 / span 4; margin: 0; }
+    .a-card > :not(.ic) { grid-column: 2; }
+    .a-bar { padding: 16px; }
+    .a-bar .btn { width: 100%; }
+    .plan.best { order: -1; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    section.block { padding: 64px 0; }
+    .persona-tabs { grid-template-columns: 1fr; }
+    .benefit { display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 16px; padding: 22px 18px; }
+    .benefit .ic { grid-row: 1 / span 3; margin: 0; }
+    .benefit > :not(.ic) { grid-column: 2; }
+    .benefit .n { font-size: 32px; }
+    .benefit h3 { margin-top: 8px; font-size: 18px; }
+    .persona-tab { padding: 16px 18px; }
+    .persona-tab .q { font-size: 17px; }
+    .topbar .hide-sm { display: none; }
+    header.nav .btn { display: none; }
+    .countdown .cell b { font-size: 22px; }
+  }
+  /* 상단 띠는 폰에서 한 줄로 */
+  @media (max-width: 420px) {
+    .topbar { font-size: 13px; }
+    .topbar .wrap { gap: 8px; flex-wrap: nowrap; min-height: 48px; justify-content: space-between; }
+    .topbar > .wrap > span:first-child { display: none; }
+    .topbar .coupon-cta { padding: 8px 14px; }
+  }
+  /* 폴더폰 접은 화면 등 아주 좁은 폭 */
+  @media (max-width: 360px) {
+    .wrap { padding: 0 14px; }
+    .topbar .lbl { display: none; }
+    .hero { padding-top: 28px; }
+    .hero h1 { font-size: 36px; }
+    .hero p.sub { font-size: 16px; }
+    .btn-lg { font-size: 16px; padding: 17px 16px; }
+    .coupon { padding: 24px 20px 22px; border-radius: 22px; }
+    .coupon .pct { font-size: 68px; }
+    .coupon .price strong { font-size: 24px; }
+    .countdown { gap: 6px; }
+    .countdown .cell { padding: 8px 2px; }
+    .countdown .cell b { font-size: 18px; }
+    .title { font-size: 27px; }
+    .persona-panel { padding: 22px 16px; }
+    .classes { gap: 8px; }
+    .class-card .meta { padding: 10px; }
+    .class-card .meta b { font-size: 13px; }
+    .plan { padding: 24px 18px; }
+    .plan .amount { font-size: 32px; }
+    .sticky-cta .txt b { font-size: 14px; }
+    .sticky-cta .btn { padding: 12px 14px; font-size: 14px; }
+    .sheet { padding: 22px 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 상단 띠: 남은 기한 상시 노출 -->
+<div class="topbar" role="note">
+  <div class="wrap">
+    <span><strong>첫 구독 50% 할인</strong><span class="hide-sm"> · 처음 구독하는 분 · 선착순 5,000명</span></span>
+    <span class="timer num"><span class="lbl">마감까지 </span><span data-countdown-text>--</span></span>
+    <a href="#" class="coupon-cta" data-open-signup><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11 M7 10l5 5 5-5 M5 20h14"/></svg>50% 쿠폰 받기</a>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="logo">CLASS<span>101</span></div>
+    <button class="btn btn-sm" data-open-signup>첫 달 50% 받기</button>
+  </div>
+</header>
+
+<!-- 1. 첫 화면: 혜택이 가장 먼저 보이도록 -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">처음 구독하는 분 한정</span>
+      <h1>
+        첫 달 구독료
+        <span class="big">50% 할인</span>
+      </h1>
+      <p class="sub">취업 준비, 커리어 스킬업, 퇴근 후 취미까지.<br>클래스101 구독 하나로 <b>모든 클래스를 무제한</b>으로 들어보세요.</p>
+      <div class="cta-row">
+        <button class="btn btn-lg pulse" data-open-signup>
+          <span>첫 달 <span data-sale-price>9,950</span>원으로 구독 시작</span><span class="arrow">→</span>
+        </button>
+        <div class="assure"><span>쿠폰 자동 적용</span><span>언제든 해지 가능</span><span>1분이면 가입 끝</span></div>
+      </div>
+    </div>
+
+    <aside class="coupon" aria-label="첫 구독 할인 쿠폰">
+      <div class="label">첫 구독 할인 쿠폰</div>
+      <div class="pct">50%<small>OFF</small></div>
+      <div class="price">
+        <del>월 <span data-full-price>19,900</span>원</del>
+        <strong>월 <span data-sale-price>9,950</span>원</strong>
+        <em>첫 달</em>
+      </div>
+      <div class="perf"></div>
+      <div class="left-time">쿠폰 마감까지 남은 시간</div>
+      <div class="countdown num" data-countdown>
+        <div class="cell"><b data-d>00</b><i>일</i></div>
+        <div class="cell"><b data-h>00</b><i>시간</i></div>
+        <div class="cell"><b data-m>00</b><i>분</i></div>
+        <div class="cell"><b data-s>00</b><i>초</i></div>
+      </div>
+      <div class="stock">
+        선착순 5,000명 중 <span class="num" data-left>1,284</span>명 남음
+        <div class="bar"><span data-bar></span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- 2. 공감: 내 이야기인지 확인 -->
+<section class="block" id="needs" style="padding-top:24px">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">나에게 맞는 클래스 찾기</div>
+      <h2 class="title">지금 나는 어떤 20대인가요?</h2>
+      <p class="lead">고르면 바로 추천 클래스를 보여드려요. 어떤 걸 골라도 첫 달은 50%예요.</p>
+    </div>
+
+    <div class="persona-tabs" role="tablist" aria-label="니즈 선택">
+      <button class="persona-tab" role="tab" aria-selected="true" aria-controls="persona-panel" data-persona="job">
+        <span class="who">취업 준비생</span>
+        <span class="q">"서류부터 면접까지,<br>준비할 게 너무 많아"</span>
+      </button>
+      <button class="persona-tab" role="tab" aria-selected="false" aria-controls="persona-panel" data-persona="skill">
+        <span class="who">사회초년생</span>
+        <span class="q">"입사는 했는데,<br>실무 스킬이 부족해"</span>
+      </button>
+      <button class="persona-tab" role="tab" aria-selected="false" aria-controls="persona-panel" data-persona="hobby">
+        <span class="who">퇴근 후 취미</span>
+        <span class="q">"회사, 집, 회사, 집…<br>나만의 시간이 필요해"</span>
+      </button>
+    </div>
+
+    <div class="persona-panel" id="persona-panel" role="tabpanel">
+      <div data-persona-copy>
+        <h3 data-p-title></h3>
+        <p class="desc" data-p-desc></p>
+        <div class="deal"><b>첫 달 50%</b><span data-p-deal></span></div>
+        <button class="btn" data-open-signup><span data-p-cta></span><span class="arrow">→</span></button>
+      </div>
+      <div class="classes" data-p-classes></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 3. 혜택 요약: 무엇을 받는지 -->
+<section class="block" style="padding-top:24px">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">첫 구독 혜택 한눈에</div>
+      <h2 class="title">어떤 클래스를 골라도<br><span class="red">첫 달은 반값</span></h2>
+    </div>
+    <div class="benefits" style="margin-top:36px">
+      <div class="benefit">
+        <span class="ic" data-icon="ticket" aria-hidden="true"></span>
+        <div class="n">50%</div>
+        <h3>첫 달 구독료 반값</h3>
+        <p>가입하면 쿠폰이 자동으로 적용돼요. 코드를 입력할 필요가 없어요.</p>
+      </div>
+      <div class="benefit">
+        <span class="ic" data-icon="infinity" aria-hidden="true"></span>
+        <div class="n">무제한</div>
+        <h3>모든 클래스 수강</h3>
+        <p>취업, 커리어, 취미 클래스를 한 달 동안 마음껏 골라 들어요.</p>
+      </div>
+      <div class="benefit">
+        <span class="ic" data-icon="unlock" aria-hidden="true"></span>
+        <div class="n">0원</div>
+        <h3>해지 위약금</h3>
+        <p>안 맞으면 버튼 한 번으로 해지해요. 다음 달 결제 전까지 언제든 가능해요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 4. 가격 비교: 9,950원이 얼마나 작은 돈인지 -->
+<section class="block" id="value" style="padding-top:24px">
+  <div class="wrap">
+    <span class="pill">9,950원으로 할 수 있는 것</span>
+    <h2 class="title big-title">아메리카노 두 잔 값으로<br>한 달 내내 배워요</h2>
+    <div class="anchor">
+      <div class="a-card">
+        <span class="ic" data-icon="coffee" aria-hidden="true"></span>
+        <div class="a-label">아메리카노 2잔</div>
+        <div class="a-price">≈ 9,000원</div>
+        <div class="a-desc">30분이면 끝</div>
+      </div>
+      <div class="a-card">
+        <span class="ic" data-icon="calendar" aria-hidden="true"></span>
+        <div class="a-label">원데이 클래스 1회</div>
+        <div class="a-price">≈ 50,000원</div>
+        <div class="a-desc">딱 하루, 하나만</div>
+      </div>
+      <div class="a-card best">
+        <span class="ic" data-icon="infinity" aria-hidden="true"></span>
+        <div class="a-label">클래스101 구독 첫 달</div>
+        <div class="a-price"><span data-sale-price>9,950</span>원</div>
+        <div class="a-desc">30일 동안 모든 클래스 무제한</div>
+        <div class="a-day">하루 <span data-per-day>332</span>원</div>
+      </div>
+    </div>
+    <div class="a-bar">
+      <span>첫 달 <b class="red"><span data-sale-price>9,950</span>원</b> · <span data-deadline-label>이번 달 말일 23:59</span> 마감</span>
+      <button class="btn" data-open-signup>50% 쿠폰 받기 <span class="arrow">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 후기: 나 같은 사람이 이미 시작했다 -->
+<section class="block" id="reviews" style="padding-top:24px">
+  <div class="wrap">
+    <div class="kicker">REVIEW</div>
+    <h2 class="title">먼저 시작한 20대들의 이야기</h2>
+    <p class="lead">첫 달 50% 할인으로 시작한 구독자들의 이야기예요. (예시)</p>
+    <div class="reviews">
+      <figure class="review">
+        <div class="stars" aria-label="별점 5점">★★★★★</div>
+        <blockquote>“자소서 쓰다 막힐 때 ChatGPT 클래스를 보고 바로 써먹었어요. 학원비 생각하면 첫 달 9,950원은 고민할 이유가 없었어요.”</blockquote>
+        <figcaption><span class="who-tag">취업 준비</span>예시 후기 · 20대 취준생 (실제 후기로 교체)</figcaption>
+      </figure>
+      <figure class="review">
+        <div class="stars" aria-label="별점 5점">★★★★★</div>
+        <blockquote>“클래스 하나 값으로 업무 자동화랑 노션까지 여러 개를 들을 수 있어서 가성비가 좋아요. 앱으로 이어보기가 돼서 출퇴근길에 들어요.”</blockquote>
+        <figcaption><span class="who-tag">스킬업</span>예시 후기 · 20대 사회초년생 (실제 후기로 교체)</figcaption>
+      </figure>
+      <figure class="review">
+        <div class="stars" aria-label="별점 5점">★★★★★</div>
+        <blockquote>“쿠폰 덕에 첫 달은 부담 없이 체험해 볼 수 있었어요. 퇴근하고 펜드로잉 15분이 하루 중 제일 기다려지는 시간이 됐어요.”</blockquote>
+        <figcaption><span class="who-tag">취미</span>예시 후기 · 20대 직장인 (실제 후기로 교체)</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 불안 해소: 꾸준히 할 수 있을까? -->
+<section class="block" style="padding-top:24px">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">구독하면 더 받는 것</div>
+      <h2 class="title">작심삼일 걱정은<br><span class="red">반값에 맡기세요</span></h2>
+      <p class="lead">혼자 하면 흐지부지되는 공부, 클래스101 구독은 꾸준히 할수록 보상이 쌓여요.</p>
+    </div>
+    <div class="benefits two">
+      <div class="benefit">
+        <span class="ic" data-icon="flame" aria-hidden="true"></span>
+        <div class="n">불꽃 레벨</div>
+        <h3>배움이 습관이 돼요</h3>
+        <p>매일 출석하고 목표를 채우면 레벨이 실시간으로 올라가요.</p>
+      </div>
+      <div class="benefit">
+        <span class="ic" data-icon="gift" aria-hidden="true"></span>
+        <div class="n">최대 100만원</div>
+        <h3>수강하면 매일 복권</h3>
+        <p>수강만 해도 복권이 쌓이고, 현금 같은 리워드를 받을 수 있어요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. 쉬움: 1분이면 끝 -->
+<section class="block" style="padding-top:24px">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">신청 방법</div>
+      <h2 class="title">1분이면 끝나요</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>구독 버튼 누르기</h3><p>이 페이지의 아무 주황 버튼이나 눌러주세요.</p></div>
+      <div class="step"><h3>이름과 이메일 입력</h3><p>50% 쿠폰은 결제 단계에서 자동으로 적용돼요.</p></div>
+      <div class="step"><h3>바로 수강 시작</h3><p>오늘 저녁부터 원하는 클래스를 무제한으로 들어요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. 남은 걱정 해소 -->
+<section class="block" style="padding-top:24px">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">자주 묻는 질문</div>
+      <h2 class="title">궁금한 점</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>누가 할인을 받을 수 있나요?</summary>
+        <p>나이와 상관없이 클래스101 구독을 한 번도 하지 않은 회원이라면 누구나 받을 수 있어요. 선착순 5,000명까지만 제공돼요.</p>
+      </details>
+      <details>
+        <summary>쿠폰 코드를 따로 입력해야 하나요?</summary>
+        <p>아니요. 이 페이지에서 신청하면 첫 달 결제에 50% 할인이 자동으로 적용돼요.</p>
+      </details>
+      <details>
+        <summary>두 번째 달부터는 얼마인가요?</summary>
+        <p>두 번째 달부터는 정상가(월 <span data-full-price>19,900</span>원)로 결제돼요. 결제 3일 전에 알림을 보내드리니, 원하지 않으면 그 전에 해지하면 돼요.</p>
+      </details>
+      <details>
+        <summary>해지하면 위약금이 있나요?</summary>
+        <p>없어요. 마이페이지에서 버튼 한 번으로 해지할 수 있고, 남은 기간 동안은 계속 수강할 수 있어요.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 9. 마지막 결정: 마감 임박 -->
+<section class="final">
+  <div class="wrap">
+    <h2>고민하는 사이<br>쿠폰이 사라지고 있어요</h2>
+    <p>첫 달 <span data-sale-price>9,950</span>원, 선착순 5,000명 한정</p>
+    <div class="countdown num" data-countdown>
+      <div class="cell"><b data-d>00</b><i>일</i></div>
+      <div class="cell"><b data-h>00</b><i>시간</i></div>
+      <div class="cell"><b data-m>00</b><i>분</i></div>
+      <div class="cell"><b data-s>00</b><i>초</i></div>
+    </div>
+    <button class="btn btn-lg" data-open-signup>지금 50% 할인받고 구독하기 <span class="arrow">→</span></button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    교육용 마케팅 실습 페이지입니다. 실제 클래스101 서비스, 가격, 이벤트와는 관계가 없습니다.<br>
+    표시된 가격과 남은 인원은 예시입니다.
+  </div>
+</footer>
+
+<!-- 스크롤 시 하단 고정 CTA -->
+<div class="sticky-cta" data-sticky aria-hidden="true">
+  <div class="inner">
+    <div class="txt"><b>첫 달 <span data-sale-price>9,950</span>원 (50% 할인)</b><span class="num">마감까지 <span data-countdown-text>--</span> · 선착순</span></div>
+    <button class="btn" data-open-signup tabindex="-1">구독 시작</button>
+  </div>
+</div>
+
+<!-- 구독 신청 모달 -->
+<div class="modal" data-modal role="dialog" aria-modal="true" aria-labelledby="signup-title">
+  <div class="backdrop" data-close></div>
+  <div class="sheet">
+    <button class="close" data-close aria-label="닫기">×</button>
+
+    <form data-form novalidate>
+      <div class="mini-coupon">
+        <b>50% OFF</b>
+        <span>첫 구독 쿠폰 자동 적용<br><span class="num">마감까지 <span data-countdown-text>--</span></span></span>
+      </div>
+      <h2 id="signup-title">구독 신청</h2>
+      <p class="hint">입력은 1분이면 충분해요.</p>
+
+      <div class="field">
+        <label for="f-name">이름</label>
+        <input id="f-name" name="name" autocomplete="name" placeholder="홍길동">
+        <div class="err" data-err="name"></div>
+      </div>
+      <div class="field">
+        <label for="f-email">이메일</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+        <div class="err" data-err="email"></div>
+      </div>
+      <div class="field">
+        <label for="f-need">가장 관심 있는 분야</label>
+        <select id="f-need" name="need">
+          <option value="job">취업 준비</option>
+          <option value="skill">커리어 스킬업</option>
+          <option value="hobby">퇴근 후 취미</option>
+        </select>
+      </div>
+      <label class="agree">
+        <input type="checkbox" name="agree">
+        <span>클래스101 구독을 처음 신청합니다. (이용약관 및 개인정보 수집 동의)</span>
+      </label>
+      <div class="err" data-err="agree" style="margin-top:6px"></div>
+
+      <div class="summary">
+        <div><span>월 구독료</span><span><span data-full-price>19,900</span>원</span></div>
+        <div><span>첫 구독 50% 쿠폰</span><span class="red">-<span data-sale-price>9,950</span>원</span></div>
+        <div class="total"><span>첫 달 결제 금액</span><b><span data-sale-price>9,950</span>원</b></div>
+      </div>
+
+      <button type="submit" class="btn">50% 할인받고 구독 시작 <span class="arrow">→</span></button>
+    </form>
+
+    <div class="success" data-success hidden>
+      <div class="check">✓</div>
+      <h2>쿠폰이 적용됐어요!</h2>
+      <p class="hint"><b data-success-name></b>님, 첫 달 <span data-sale-price>9,950</span>원으로 구독이 시작됐어요.<br>추천 클래스를 이메일로 보내드릴게요.</p>
+      <div class="applied"><b>첫 달 <span data-sale-price>9,950</span>원</b><span>50% 할인 자동 적용 · 둘째 달부터 월 <span data-full-price>19,900</span>원 · 언제든 해지</span></div>
+      <button class="btn" data-close>추천 클래스 보러 가기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // 실습용 예시 값
+  var FULL_PRICE = 19900;
+  var SALE_PRICE = Math.round(FULL_PRICE / 2);
+  var TOTAL_SEATS = 5000;
+  var SEATS_LEFT = 1284;
+
+  // 광고 채널별 첫 문구: 광고 링크에 ?ch=insta|youtube|naver (또는 utm_source) 를 붙이면 광고와 같은 말로 시작
+  var CHANNEL_EYEBROW = {
+    insta: "릴스에서 본 그 혜택 · 첫 구독 50%",
+    youtube: "영상에서 본 그 혜택 · 첫 구독 50%",
+    naver: "검색하신 혜택 맞아요 · 첫 구독 50%"
+  };
+  var q = new URLSearchParams(location.search);
+  var ch = (q.get("ch") || q.get("utm_source") || "").toLowerCase();
+  if (ch.indexOf("insta") === 0) ch = "insta";
+  if (CHANNEL_EYEBROW[ch]) document.querySelector(".eyebrow").textContent = CHANNEL_EYEBROW[ch];
+
+  // 선 아이콘 (24x24)
+  var ICONS = {
+    sparkle: "M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8z",
+    chat: "M4 5h16v11H9l-5 4z M8 10h8 M8 13h5",
+    doc: "M6 3h9l3 3v15H6z M9 9h6 M9 13h6 M9 17h4",
+    globe: "M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z M3 12h18 M12 3c3 3.5 3 14.5 0 18 M12 3c-3 3.5-3 14.5 0 18",
+    pen: "M4 20l4-1 11-11-3-3L5 16z M14 6l3 3",
+    smile: "M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z M8.5 14.5c1.8 2 5.2 2 7 0 M9 9.5h.01 M15 9.5h.01",
+    camera: "M4 8h4l2-3h4l2 3h4v11H4z M12 10.5a3 3 0 1 0 0 6a3 3 0 1 0 0-6z",
+    play: "M4 4h16v16H4z M10 9l5 3-5 3z",
+    flow: "M4 4h6v6H4z M14 14h6v6h-6z M10 7h4a2 2 0 0 1 2 2v5",
+    video: "M3 7h12v10H3z M15 10l6-3v10l-6-3z",
+    megaphone: "M3 10v4h3l7 4V6L6 10z M16 9a4 4 0 0 1 0 6",
+    ticket: "M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z M9.5 14.5l5-5 M9.5 9.5h.01 M14.5 14.5h.01",
+    infinity: "M7 9a3 3 0 1 0 0 6c2.5 0 5.5-6 10-6a3 3 0 1 1 0 6c-4.5 0-7.5-6-10-6z",
+    unlock: "M6 11h12v9H6z M9 11V8a3 3 0 0 1 5.8-1",
+    flame: "M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-8.5z",
+    coffee: "M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z M16 10h2a2 2 0 0 1 0 4h-2 M8 3v3 M12 3v3",
+    calendar: "M4 6h16v14H4z M4 10h16 M8 3v5 M16 3v5 M8 14h3",
+    gift: "M4 11h16v9H4z M3 7h18v4H3z M12 7v13 M12 7c-1.5-3-5-3-5-1s3 1 5 1z M12 7c1.5-3 5-3 5-1s-3 1-5 1z"
+  };
+  var icon = function (name) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICONS[name] + '"/></svg>'; };
+  var CLASS_ICON = {
+    "ChatGPT": "sparkle", "ENGLISH": "chat", "NOTION": "doc", "日本語": "globe",
+    "AI 자동화": "flow", "AI VIDEO": "video", "BRANDING": "megaphone",
+    "DRAW": "pen", "EMOJI": "smile", "PHOTO": "camera", "REELS": "play"
+  };
+  document.querySelectorAll("[data-icon]").forEach(function (el) { el.innerHTML = icon(el.dataset.icon); });
+
+  var won = function (n) { return n.toLocaleString("ko-KR"); };
+  document.querySelectorAll("[data-full-price]").forEach(function (el) { el.textContent = won(FULL_PRICE); });
+  document.querySelectorAll("[data-sale-price]").forEach(function (el) { el.textContent = won(SALE_PRICE); });
+  document.querySelectorAll("[data-left]").forEach(function (el) { el.textContent = won(SEATS_LEFT); });
+  requestAnimationFrame(function () {
+    setTimeout(function () {
+      document.querySelectorAll("[data-bar]").forEach(function (el) {
+        el.style.width = ((TOTAL_SEATS - SEATS_LEFT) / TOTAL_SEATS * 100) + "%";
+      });
+    }, 300);
+  });
+
+  // 남은 기한: 이번 달 말일 23:59:59 마감 (1개월 캠페인)
+  var now = new Date();
+  var deadline = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  var pad = function (n) { return String(n).padStart(2, "0"); };
+  var DOW = ["일", "월", "화", "수", "목", "금", "토"];
+  document.querySelectorAll("[data-deadline-label]").forEach(function (el) {
+    el.textContent = pad(deadline.getMonth() + 1) + "." + pad(deadline.getDate()) + "(" + DOW[deadline.getDay()] + ") 23:59";
+  });
+  document.querySelectorAll("[data-per-day]").forEach(function (el) { el.textContent = won(Math.round(SALE_PRICE / 30)); });
+
+  function tick() {
+    var diff = Math.max(0, deadline - new Date());
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor(diff / 3600000) % 24;
+    var m = Math.floor(diff / 60000) % 60;
+    var s = Math.floor(diff / 1000) % 60;
+    document.querySelectorAll("[data-countdown]").forEach(function (box) {
+      box.querySelector("[data-d]").textContent = pad(d);
+      box.querySelector("[data-h]").textContent = pad(h);
+      box.querySelector("[data-m]").textContent = pad(m);
+      box.querySelector("[data-s]").textContent = pad(s);
+    });
+    var text = (d > 0 ? d + "일 " : "") + pad(h) + ":" + pad(m) + ":" + pad(s);
+    document.querySelectorAll("[data-countdown-text]").forEach(function (el) { el.textContent = text; });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // 니즈별 콘텐츠
+  var PERSONAS = {
+    job: {
+      title: "합격하는 사람은<br>이미 준비하고 있어요",
+      desc: "요즘 채용 공고에 빠지지 않는 AI 활용 능력부터 영어 회화, 포트폴리오까지. 학원 하나 값도 안 되는 가격으로 남들보다 한 발 먼저 준비하세요.",
+      deal: "학원 한 달 대신, {price}원으로 취업 준비 전부",
+      cta: "취업 준비, 첫 달 50%로 시작",
+      classes: [
+        { t: "ChatGPT 실무 활용법", c: "AI 스킬업", g: ["#FF5A00", "#6B2400"], k: "ChatGPT" },
+        { t: "혼자서 말이 트이는 영어 회화", c: "영어", g: ["#2B2B30", "#0B0B0C"], k: "ENGLISH" },
+        { t: "노션으로 포트폴리오 정리하기", c: "생산성", g: ["#3D1600", "#FF5A00"], k: "NOTION" },
+        { t: "처음 시작하는 일본어", c: "제2 외국어", g: ["#1D1D20", "#6B2400"], k: "日本語" }
+      ]
+    },
+    skill: {
+      title: "월급 말고,<br>내 실력이 오르는 한 달",
+      desc: "코딩을 몰라도 되는 업무 자동화, AI 콘텐츠 제작처럼 바로 일에 쓰는 스킬을 퇴근 후 30분씩 쌓아보세요.",
+      deal: "점심 두 번 값으로, 한 달 동안 스킬업",
+      cta: "스킬업, 첫 달 50%로 시작",
+      classes: [
+        { t: "클로드 코드로 시작하는 업무 자동화", c: "AI 스킬업", g: ["#FF5A00", "#3D1600"], k: "AI 자동화" },
+        { t: "AI로 영상 기획부터 편집까지", c: "AI 스킬업", g: ["#2B2B30", "#0B0B0C"], k: "AI VIDEO" },
+        { t: "노션으로 만드는 업무 시스템", c: "생산성", g: ["#6B2400", "#FF5A00"], k: "NOTION" },
+        { t: "인스타그램 퍼스널 브랜딩", c: "창업 · 부업", g: ["#1D1D20", "#6B2400"], k: "BRANDING" }
+      ]
+    },
+    hobby: {
+      title: "퇴근 후 2시간이<br>기다려지는 이유",
+      desc: "펜드로잉, 이모티콘, 감성 사진, 릴스 편집까지. 회사와 집 사이에 나만의 즐거움을 하나 만들어보세요. 취미가 부업이 될 수도 있어요.",
+      deal: "커피 두 잔 값으로, 취미 한 달 무제한",
+      cta: "내 취미, 첫 달 50%로 시작",
+      classes: [
+        { t: "기초부터 시작하는 펜드로잉", c: "드로잉", g: ["#FF5A00", "#6B2400"], k: "DRAW" },
+        { t: "나만의 이모티콘 만들기", c: "디지털 드로잉", g: ["#2B2B30", "#0B0B0C"], k: "EMOJI" },
+        { t: "스마트폰으로 감성 기록하기", c: "사진 · 영상", g: ["#3D1600", "#FF5A00"], k: "PHOTO" },
+        { t: "비전공자도 하는 릴스 편집", c: "사진 · 영상", g: ["#1D1D20", "#6B2400"], k: "REELS" }
+      ]
+    }
+  };
+
+  var tabs = document.querySelectorAll("[data-persona]");
+  var current = "job";
+  function renderPersona(key) {
+    current = key;
+    var p = PERSONAS[key];
+    tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t.dataset.persona === key)); });
+    document.querySelector("[data-p-title]").innerHTML = p.title;
+    document.querySelector("[data-p-desc]").textContent = p.desc;
+    document.querySelector("[data-p-deal]").textContent = p.deal.replace("{price}", won(SALE_PRICE));
+    document.querySelector("[data-p-cta]").textContent = p.cta;
+    document.querySelector("[data-p-classes]").innerHTML = p.classes.map(function (c) {
+      return '<div class="class-card"><div class="thumb" style="background:linear-gradient(135deg,' + c.g[0] + ',' + c.g[1] + ')">' + icon(CLASS_ICON[c.k] || "sparkle") + '<span class="k">' + c.k +
+        '</span></div><div class="meta"><b>' + c.t + '</b><span>' + c.c + '</span></div></div>';
+    }).join("");
+    var panel = document.getElementById("persona-panel");
+    panel.classList.remove("fade-in"); void panel.offsetWidth; panel.classList.add("fade-in");
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { renderPersona(t.dataset.persona); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      var next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus(); renderPersona(next.dataset.persona);
+    });
+  });
+  renderPersona("job");
+
+  // 하단 고정 CTA: 히어로가 화면에서 벗어나면 표시
+  var sticky = document.querySelector("[data-sticky]");
+  var heroCta = document.querySelector(".hero .cta-row");
+  var finalSec = document.querySelector(".final");
+  var heroGone = false, finalIn = false;
+  function syncSticky() {
+    var show = heroGone && !finalIn;
+    sticky.classList.toggle("show", show);
+    sticky.setAttribute("aria-hidden", String(!show));
+    sticky.querySelector("button").tabIndex = show ? 0 : -1;
+  }
+  new IntersectionObserver(function (es) { heroGone = !es[0].isIntersecting && es[0].boundingClientRect.top < 0; syncSticky(); }).observe(heroCta);
+  new IntersectionObserver(function (es) { finalIn = es[0].isIntersecting; syncSticky(); }).observe(finalSec);
+
+  // 구독 신청 모달
+  var modal = document.querySelector("[data-modal]");
+  var form = modal.querySelector("[data-form]");
+  var success = modal.querySelector("[data-success]");
+  var lastFocus = null;
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    form.hidden = false; success.hidden = true;
+    form.need.value = current;
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+    setTimeout(function () { form.name.focus(); }, 50);
+  }
+  function closeModal() {
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll("[data-open-signup]").forEach(function (b) { b.addEventListener("click", openModal); });
+  modal.querySelectorAll("[data-close]").forEach(function (b) { b.addEventListener("click", closeModal); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var errs = {
+      name: form.name.value.trim() ? "" : "이름을 입력해주세요.",
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim()) ? "" : "이메일 형식을 확인해주세요.",
+      agree: form.agree.checked ? "" : "대상 확인과 약관 동의가 필요해요."
+    };
+    Object.keys(errs).forEach(function (k) { modal.querySelector('[data-err="' + k + '"]').textContent = errs[k]; });
+    var firstBad = Object.keys(errs).find(function (k) { return errs[k]; });
+    if (firstBad) { form[firstBad].focus(); return; }
+    // 실습용: 실제 전송 없이 완료 화면만 표시
+    modal.querySelector("[data-success-name]").textContent = form.name.value.trim();
+    form.hidden = true; success.hidden = false;
+    success.querySelector(".btn").focus();
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>

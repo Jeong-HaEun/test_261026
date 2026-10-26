@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>랜딩 개선 리포트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Pretendard Variable", Pretendard, "Malgun Gothic", sans-serif; background: #F4F4F5; color: #18181B; line-height: 1.55; word-break: keep-all; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; }
+  .sub { color: #52525B; margin-top: 6px; }
+  h2 { margin-top: 48px; font-size: 22px; font-weight: 800; }
+  h2 small { font-size: 14px; color: #FF5A00; font-weight: 800; margin-right: 8px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; border-radius: 14px; overflow: hidden; font-size: 15px; }
+  th, td { padding: 12px 14px; text-align: center; border-bottom: 1px solid #E4E4E7; }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: #18181B; color: #fff; font-weight: 700; }
+  td.pass { color: #15803D; font-weight: 800; }
+  td.fail { color: #B91C1C; font-weight: 800; }
+  .note { margin-top: 10px; font-size: 13px; color: #71717A; }
+  ul.changes { margin-top: 12px; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+  .pair { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .shots { margin-top: 18px; display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  figure { background: #fff; border-radius: 14px; padding: 12px; }
+  figure img { display: block; width: 100%; border-radius: 8px; border: 1px solid #E4E4E7; }
+  .shots figure { width: 230px; }
+  .shots figure.wide { width: 470px; }
+  figcaption { margin-top: 8px; font-size: 13px; color: #52525B; }
+  figcaption b { color: #18181B; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-right: 6px; }
+  .tag.before { background: #FEE2E2; color: #B91C1C; }
+  .tag.after { background: #DCFCE7; color: #15803D; }
+  @media (max-width: 720px) { .pair { grid-template-columns: 1fr; } .shots figure, .shots figure.wide { width: 100%; } table { font-size: 13px; } th, td { padding: 10px 8px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>클래스101 랜딩 페이지 평가와 개선</h1>
+  <p class="sub">기준 4개를 항목당 10점으로 평가했어요. 모든 항목이 9점 이상이면 통과로 보고, 통과할 때까지 반복했어요.</p>
+
+  <table>
+    <thead><tr><th>평가 기준</th><th>0차 (처음)</th><th>1차</th><th>2차</th><th>3차 (최종)</th></tr></thead>
+    <tbody>
+      <tr><td>1. 모바일 · 데스크톱 · 폴더폰 해상도별 최적화</td><td class="fail">6</td><td class="pass">9</td><td class="pass">9</td><td class="pass">9.5</td></tr>
+      <tr><td>2. CTA 위치</td><td class="fail">7</td><td class="fail">8</td><td class="fail">8</td><td class="pass">9.5</td></tr>
+      <tr><td>3. 혜택 일관성 (상단 ~ 하단 누락 없음)</td><td class="fail">7</td><td class="pass">9</td><td class="pass">9</td><td class="pass">9.5</td></tr>
+      <tr><td>4. 이미지 적합성 (혜택 설명 · 기대감)</td><td class="fail">6</td><td class="fail">6</td><td class="pass">9</td><td class="pass">9</td></tr>
+      <tr><td><b>결과</b></td><td class="fail">미통과</td><td class="fail">미통과</td><td class="fail">미통과</td><td class="pass">통과</td></tr>
+    </tbody>
+  </table>
+  <p class="note">확인한 화면: 폴더폰 접은 화면 280px · 344px, 아이폰 390px, 폴더폰 펼친 화면 690px, 데스크톱 1440px · 1920px</p>
+
+  <h2><small>0차</small>처음 상태에서 찾은 문제</h2>
+  <ul class="changes">
+    <li>폴더폰 접은 화면(280px)에서 첫 화면 제목, 문구, 구독 버튼이 오른쪽으로 잘림</li>
+    <li>폴더폰 펼친 화면(690px)에서 쿠폰 카드가 화면 폭 전체로 늘어나 첫 화면 밖으로 밀림</li>
+    <li>폰에서는 상단 띠가 두 줄이 되고, 상단의 "쿠폰 받기"는 밑줄 글자뿐이라 눈에 띄지 않음</li>
+    <li>신청 창의 닫기(×) 버튼이 쿠폰 위에 겹침</li>
+    <li>신청 완료 화면에 쿠폰 코드 FIRST50이 나옴 (페이지는 "코드 입력 필요 없음, 자동 적용"이라고 안내)</li>
+    <li>하단 고정 바에는 가격이 없고 "50% 할인"만 있음. 상단 띠에는 "선착순 5,000명"이 빠짐</li>
+    <li>추천 클래스 썸네일이 글자만 있는 색 블록이라 무엇을 배우는지 기대감이 약함</li>
+  </ul>
+  <div class="shots">
+    <figure><img src="iter0-fold-cover-280.png" alt=""><figcaption><span class="tag before">0차</span><b>280px</b> 오른쪽 잘림</figcaption></figure>
+    <figure><img src="iter0-fold-open-690.png" alt=""><figcaption><span class="tag before">0차</span><b>690px</b> 쿠폰 카드가 너무 넓음</figcaption></figure>
+    <figure><img src="iter0-iphone-390-modal.png" alt=""><figcaption><span class="tag before">0차</span><b>신청 창</b> × 버튼 겹침</figcaption></figure>
+    <figure><img src="iter0-iphone-390-persona.png" alt=""><figcaption><span class="tag before">0차</span><b>추천 클래스</b> 글자만 있는 썸네일</figcaption></figure>
+  </div>
+
+  <h2><small>1차</small>반응형 · 혜택 일관성 개선</h2>
+  <ul class="changes">
+    <li>첫 화면 배치가 좁은 폭에서 줄어들도록 고치고, 360px 이하 전용 크기(제목, 쿠폰, 카운트다운, 버튼)를 추가 → 280px에서도 잘림 없음</li>
+    <li>690px에서는 쿠폰 카드를 최대 520px로 가운데 정렬</li>
+    <li>폰에서 상단 띠를 한 줄로 줄임</li>
+    <li>신청 창 × 버튼이 쿠폰과 겹치지 않게 간격 조정</li>
+    <li>완료 화면의 쿠폰 코드를 "첫 달 9,950원 · 50% 자동 적용 · 둘째 달부터 19,900원"으로 교체</li>
+    <li>하단 고정 바에 "첫 달 9,950원 (50% 할인) · 선착순"을 넣고, 상단 띠에 "선착순 5,000명"을 추가</li>
+    <li>니즈별 문구의 가격도 같은 값(9,950원)을 쓰도록 연결해서, 가격을 바꾸면 페이지 전체가 함께 바뀜</li>
+  </ul>
+  <div class="shots">
+    <figure><img src="iter1-fold-cover-280.png" alt=""><figcaption><span class="tag after">1차</span><b>280px</b> 잘림 해결</figcaption></figure>
+    <figure><img src="iter1-fold-open-690.png" alt=""><figcaption><span class="tag after">1차</span><b>690px</b> 쿠폰 카드 정리</figcaption></figure>
+    <figure><img src="iter1-iphone-390-done.png" alt=""><figcaption><span class="tag after">1차</span><b>완료 화면</b> 코드 대신 적용 금액</figcaption></figure>
+    <figure><img src="iter1-iphone-390-sticky.png" alt=""><figcaption><span class="tag after">1차</span><b>하단 바</b> 가격과 선착순 추가</figcaption></figure>
+  </div>
+
+  <h2><small>2차</small>이미지 적합성 개선</h2>
+  <ul class="changes">
+    <li>추천 클래스 썸네일 12개에 수업 내용을 보여주는 그림을 추가 (AI, 영어 말풍선, 노션 문서, 펜드로잉, 카메라, 릴스 등)</li>
+    <li>혜택 카드(50%, 무제한, 0원)와 습관 보상 카드(불꽃 레벨, 복권)에 아이콘 추가</li>
+    <li>가격 비교에 "1개만 vs 전부" 그림 추가: 개별 구매는 칸 1개만 채워지고, 구독은 6칸이 모두 채워짐</li>
+    <li>폰에서 혜택 카드를 아이콘 왼쪽 배치로 바꿔 스크롤 길이를 줄임</li>
+  </ul>
+  <div class="shots">
+    <figure class="wide"><img src="iter2-desktop-1440-persona.png" alt=""><figcaption><span class="tag after">2차</span><b>추천 클래스</b> 수업 그림 추가</figcaption></figure>
+    <figure><img src="iter2-iphone-390-compare.png" alt=""><figcaption><span class="tag after">2차</span><b>가격 비교</b> 1개 vs 전부</figcaption></figure>
+    <figure><img src="iter3-iphone-390-benefits.png" alt=""><figcaption><span class="tag after">2차</span><b>혜택 카드</b> 아이콘 + 짧은 배치</figcaption></figure>
+  </div>
+
+  <h2><small>3차</small>상단 쿠폰 CTA · 상단 띠 시인성 개선</h2>
+  <ul class="changes">
+    <li>상단 띠를 주황에서 흰 배경으로 바꾸고 아래에 주황 선과 그림자를 추가 → 검은 구간, 주황 구간 어디서든 페이지와 분리돼 보임</li>
+    <li>밑줄 글자 "쿠폰 받기"를 다운로드 아이콘이 있는 주황 버튼 "50% 쿠폰 받기"로 교체하고, 주기적으로 살짝 움직이게 함</li>
+    <li>폰에서도 이 버튼을 숨기지 않고, 남은 시간과 버튼만 남겨 한 줄로 배치</li>
+  </ul>
+  <div class="shots">
+    <figure class="wide"><img src="iter3-desktop-1440-over-final.png" alt=""><figcaption><span class="tag after">3차</span><b>1440px</b> 주황 구간 위에서도 띠가 분리됨</figcaption></figure>
+    <figure><img src="iter3-iphone-390-over-coupon.png" alt=""><figcaption><span class="tag after">3차</span><b>390px</b> 주황 쿠폰 위에서도 구분</figcaption></figure>
+    <figure><img src="iter3-fold-cover-280.png" alt=""><figcaption><span class="tag after">3차</span><b>280px</b> 쿠폰 버튼 유지</figcaption></figure>
+  </div>
+
+  <h2><small>최종</small>해상도별 첫 화면</h2>
+  <div class="shots">
+    <figure class="wide"><img src="iter3-desktop-1920.png" alt=""><figcaption><b>1920px</b> 데스크톱</figcaption></figure>
+    <figure class="wide"><img src="iter3-desktop-1440.png" alt=""><figcaption><b>1440px</b> 데스크톱</figcaption></figure>
+    <figure><img src="iter3-fold-open-690.png" alt=""><figcaption><b>690px</b> 폴더폰 펼침</figcaption></figure>
+    <figure><img src="iter3-iphone-390.png" alt=""><figcaption><b>390px</b> 아이폰</figcaption></figure>
+    <figure><img src="iter3-fold-cover-280.png" alt=""><figcaption><b>280px</b> 폴더폰 접음</figcaption></figure>
+  </div>
+</div>
+</body>
+</html>

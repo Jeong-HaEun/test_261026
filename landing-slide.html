@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>랜딩 요약 16:9</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0B0C; }
+  body { font-family: Pretendard, "Malgun Gothic", sans-serif; color: #fff; word-break: keep-all; -webkit-font-smoothing: antialiased; }
+  .slide { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+  .slide::before {
+    content: ""; position: absolute; right: 120px; top: -160px; width: 1100px; height: 1100px;
+    background: radial-gradient(circle, rgba(255,90,0,.38), rgba(255,90,0,0) 62%);
+  }
+  .slide > * { position: relative; }
+
+  .topbar { height: 64px; background: #FF5A00; display: flex; align-items: center; justify-content: center; gap: 20px; font-size: 24px; font-weight: 700; }
+  .topbar .timer { background: rgba(0,0,0,.25); padding: 4px 16px; border-radius: 999px; }
+
+  .nav { height: 96px; padding: 0 120px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 34px; font-weight: 900; letter-spacing: -0.02em; }
+  .logo span { color: #FF7A2E; }
+  .nav .btn-sm { background: #FF5A00; font-size: 22px; font-weight: 800; padding: 14px 24px; border-radius: 14px; }
+
+  .main { padding: 40px 120px 0; display: grid; grid-template-columns: 1fr 640px; gap: 80px; align-items: center; }
+  .eyebrow { display: inline-block; font-size: 24px; font-weight: 700; color: #FF7A2E; border: 2px solid rgba(255,122,46,.6); background: rgba(255,90,0,.1); padding: 8px 22px; border-radius: 999px; }
+  h1 { margin-top: 26px; font-size: 104px; font-weight: 900; line-height: 1.05; letter-spacing: -0.04em; }
+  h1 .big { display: block; color: #FF7A2E; font-size: 138px; letter-spacing: -0.05em; }
+  .sub { margin-top: 26px; font-size: 30px; color: #D4D4DA; line-height: 1.5; }
+  .sub b { color: #fff; }
+  .cta { margin-top: 40px; display: inline-flex; align-items: center; gap: 16px; background: #FF5A00; font-size: 32px; font-weight: 800; padding: 28px 44px; border-radius: 20px; box-shadow: 0 24px 50px -20px rgba(255,90,0,.9); }
+  .assure { margin-top: 20px; display: flex; gap: 28px; font-size: 22px; color: #A3A3AD; }
+  .assure span::before { content: "✓ "; color: #FF7A2E; font-weight: 800; }
+
+  .coupon { background: linear-gradient(150deg, #FF5A00, #B23D00); border-radius: 32px; padding: 44px 44px 38px; transform: rotate(-2deg); box-shadow: 0 50px 100px -40px rgba(255,90,0,.8); position: relative; }
+  .coupon::before, .coupon::after { content: ""; position: absolute; top: 60%; width: 44px; height: 44px; border-radius: 50%; background: #0B0B0C; transform: translateY(-50%); }
+  .coupon::before { left: -22px; } .coupon::after { right: -22px; }
+  .coupon .label { font-size: 24px; font-weight: 700; opacity: .9; }
+  .coupon .pct { font-size: 170px; font-weight: 900; line-height: .95; letter-spacing: -0.06em; margin-top: 6px; }
+  .coupon .pct small { font-size: 64px; margin-left: 8px; letter-spacing: -0.02em; }
+  .coupon .price { margin-top: 14px; display: flex; align-items: baseline; gap: 16px; }
+  .coupon .price del { font-size: 26px; opacity: .65; }
+  .coupon .price strong { font-size: 46px; font-weight: 900; }
+  .coupon .price em { font-style: normal; font-size: 22px; opacity: .85; }
+  .coupon .perf { border-top: 3px dashed rgba(255,255,255,.4); margin: 28px -10px 22px; }
+  .coupon .left { font-size: 22px; font-weight: 600; opacity: .9; }
+  .cd { display: flex; gap: 12px; margin-top: 12px; }
+  .cd div { flex: 1; background: rgba(0,0,0,.28); border-radius: 16px; padding: 12px 0; text-align: center; }
+  .cd b { display: block; font-size: 40px; font-weight: 900; line-height: 1.1; }
+  .cd i { font-style: normal; font-size: 18px; opacity: .8; }
+  .stock { margin-top: 22px; font-size: 22px; font-weight: 600; }
+  .stock .bar { height: 10px; background: rgba(0,0,0,.3); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+  .stock .bar span { display: block; height: 100%; width: 74%; background: #fff; border-radius: 99px; }
+
+  .needs { position: absolute; left: 120px; right: 120px; bottom: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .need { background: #151517; border: 2px solid #2A2A2F; border-radius: 22px; padding: 24px 28px; display: flex; align-items: center; gap: 20px; }
+  .need .ic { width: 64px; height: 64px; border-radius: 16px; background: rgba(255,90,0,.15); color: #FF7A2E; display: grid; place-items: center; font-size: 28px; font-weight: 900; flex-shrink: 0; }
+  .need .who { font-size: 20px; font-weight: 700; color: #FF7A2E; }
+  .need .q { margin-top: 4px; font-size: 26px; font-weight: 800; line-height: 1.3; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="topbar"><span>첫 구독 50% 할인 · 처음 구독하는 분 한정</span><span class="timer">마감까지 5일 12:00:00</span></div>
+    <div class="nav"><div class="logo">CLASS<span>101</span></div><div class="btn-sm">첫 달 50% 받기</div></div>
+
+    <div class="main">
+      <div>
+        <span class="eyebrow">처음 구독하는 분 한정</span>
+        <h1>첫 달 구독료<span class="big">50% 할인</span></h1>
+        <p class="sub">취업 준비, 커리어 스킬업, 퇴근 후 취미까지.<br>구독 하나로 <b>모든 클래스 무제한</b>.</p>
+        <div class="cta">첫 달 9,950원으로 구독 시작 →</div>
+        <div class="assure"><span>쿠폰 자동 적용</span><span>언제든 해지 가능</span><span>1분이면 가입 끝</span></div>
+      </div>
+
+      <div class="coupon">
+        <div class="label">첫 구독 할인 쿠폰</div>
+        <div class="pct">50%<small>OFF</small></div>
+        <div class="price"><del>월 19,900원</del><strong>월 9,950원</strong><em>첫 달</em></div>
+        <div class="perf"></div>
+        <div class="left">쿠폰 마감까지 남은 시간</div>
+        <div class="cd">
+          <div><b>05</b><i>일</i></div><div><b>12</b><i>시간</i></div><div><b>00</b><i>분</i></div><div><b>00</b><i>초</i></div>
+        </div>
+        <div class="stock">선착순 5,000명 중 1,284명 남음<div class="bar"><span></span></div></div>
+      </div>
+    </div>
+
+    <div class="needs">
+      <div class="need"><div class="ic">01</div><div><div class="who">취업 준비생</div><div class="q">"서류부터 면접까지, 준비할 게 너무 많아"</div></div></div>
+      <div class="need"><div class="ic">02</div><div><div class="who">사회초년생</div><div class="q">"입사는 했는데, 실무 스킬이 부족해"</div></div></div>
+      <div class="need"><div class="ic">03</div><div><div class="who">퇴근 후 취미</div><div class="q">"회사, 집, 회사, 집… 나만의 시간이 필요해"</div></div></div>
+    </div>
+  </div>
+</body>
+</html>
