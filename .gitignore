@@ -5,3 +5,7 @@
 baemin-landing.html
 baemin-mobile.png
 baemin-pc.png
+
+# 비밀 값과 키가 들어간 빌드 결과
+.env
+dist/

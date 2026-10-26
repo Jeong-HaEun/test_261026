@@ -739,6 +739,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@amplitude/analytics-browser@2.11.1/lib/scripts/amplitude-min.js"></script>
 <script>
 (function () {
   // 실습용 예시 값
@@ -757,6 +758,39 @@
   var ch = (q.get("ch") || q.get("utm_source") || "").toLowerCase();
   if (ch.indexOf("insta") === 0) ch = "insta";
   if (CHANNEL_EYEBROW[ch]) document.querySelector(".eyebrow").textContent = CHANNEL_EYEBROW[ch];
+
+  // 앰플리튜드: build.js 가 .env 의 API Key 를 넣은 dist/ 파일에서만 켜짐 (원본은 꺼진 상태)
+  var AMPLITUDE_API_KEY = "%%AMPLITUDE_API_KEY%%";
+  var amp = AMPLITUDE_API_KEY.indexOf("%%") === -1 && window.amplitude ? window.amplitude : null;
+  var track = function (name, props) { if (amp) amp.track(name, props); };
+  if (amp) {
+    amp.init(AMPLITUDE_API_KEY, {
+      autocapture: { attribution: true, pageViews: false, sessions: true, formInteractions: false, fileDownloads: false, elementInteractions: false }
+    });
+  }
+  track("landing_view", { channel: CHANNEL_EYEBROW[ch] ? ch : "direct" });
+
+  // 스크롤 깊이: 25 / 50 / 75 / 100% 를 처음 지날 때 한 번씩
+  var depthSent = {};
+  window.addEventListener("scroll", function () {
+    var max = document.documentElement.scrollHeight - innerHeight;
+    var pct = max > 0 ? (scrollY / max) * 100 : 100;
+    [25, 50, 75, 100].forEach(function (d) {
+      if (pct >= d - 1 && !depthSent[d]) { depthSent[d] = true; track("scroll_depth", { percent: d }); }
+    });
+  }, { passive: true });
+
+  // 버튼이 놓인 위치 이름 (어느 CTA 가 눌렸는지)
+  function ctaLocation(el) {
+    if (el.closest(".topbar")) return "topbar";
+    if (el.closest("header")) return "header";
+    if (el.closest(".sticky-cta")) return "sticky_bar";
+    var sec = el.closest("section");
+    if (!sec) return "other";
+    if (sec.classList.contains("hero")) return "hero";
+    if (sec.classList.contains("final")) return "final";
+    return sec.id || "section";
+  }
 
   // 선 아이콘 (24x24)
   var ICONS = {
@@ -885,11 +919,15 @@
     panel.classList.remove("fade-in"); void panel.offsetWidth; panel.classList.add("fade-in");
   }
   tabs.forEach(function (t, i) {
-    t.addEventListener("click", function () { renderPersona(t.dataset.persona); });
+    t.addEventListener("click", function () {
+      renderPersona(t.dataset.persona);
+      track("persona_select", { persona: t.dataset.persona });
+    });
     t.addEventListener("keydown", function (e) {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
       var next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
       next.focus(); renderPersona(next.dataset.persona);
+      track("persona_select", { persona: next.dataset.persona });
     });
   });
   renderPersona("job");
@@ -916,6 +954,9 @@
 
   function openModal(e) {
     if (e) e.preventDefault();
+    var where = e ? ctaLocation(e.currentTarget) : "other";
+    track("cta_click", { location: where, persona: current });
+    track("signup_open", { location: where });
     lastFocus = document.activeElement;
     form.hidden = false; success.hidden = true;
     form.need.value = current;
@@ -944,6 +985,8 @@
     if (firstBad) { form[firstBad].focus(); return; }
     // 실습용: 실제 전송 없이 완료 화면만 표시
     modal.querySelector("[data-success-name]").textContent = form.name.value.trim();
+    // 이름과 이메일은 보내지 않고 관심 분야만 기록
+    track("signup_complete", { interest: form.need.value, price: SALE_PRICE });
     form.hidden = true; success.hidden = false;
     success.querySelector(".btn").focus();
     form.reset();
