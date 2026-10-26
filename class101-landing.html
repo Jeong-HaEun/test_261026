@@ -404,14 +404,14 @@
   <div class="wrap">
     <span><strong>첫 구독 50% 할인</strong><span class="hide-sm"> · 처음 구독하는 분 · 선착순 5,000명</span></span>
     <span class="timer num"><span class="lbl">마감까지 </span><span data-countdown-text>--</span></span>
-    <a href="#" class="coupon-cta" data-open-signup><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11 M7 10l5 5 5-5 M5 20h14"/></svg>50% 쿠폰 받기</a>
+    <a href="#" class="coupon-cta" data-open-signup data-cta="topbar_coupon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11 M7 10l5 5 5-5 M5 20h14"/></svg>50% 쿠폰 받기</a>
   </div>
 </div>
 
 <header class="nav">
   <div class="wrap">
     <div class="logo">CLASS<span>101</span></div>
-    <button class="btn btn-sm" data-open-signup>첫 달 50% 받기</button>
+    <button class="btn btn-sm" data-open-signup data-cta="header">첫 달 50% 받기</button>
   </div>
 </header>
 
@@ -426,7 +426,7 @@
       </h1>
       <p class="sub">취업 준비, 커리어 스킬업, 퇴근 후 취미까지.<br>클래스101 구독 하나로 <b>모든 클래스를 무제한</b>으로 들어보세요.</p>
       <div class="cta-row">
-        <button class="btn btn-lg pulse" data-open-signup>
+        <button class="btn btn-lg pulse" data-open-signup data-cta="hero_main">
           <span>첫 달 <span data-sale-price>9,950</span>원으로 구독 시작</span><span class="arrow">→</span>
         </button>
         <div class="assure"><span>쿠폰 자동 적용</span><span>언제든 해지 가능</span><span>1분이면 가입 끝</span></div>
@@ -486,7 +486,7 @@
         <h3 data-p-title></h3>
         <p class="desc" data-p-desc></p>
         <div class="deal"><b>첫 달 50%</b><span data-p-deal></span></div>
-        <button class="btn" data-open-signup><span data-p-cta></span><span class="arrow">→</span></button>
+        <button class="btn" data-open-signup data-cta="persona"><span data-p-cta></span><span class="arrow">→</span></button>
       </div>
       <div class="classes" data-p-classes></div>
     </div>
@@ -553,7 +553,7 @@
     </div>
     <div class="a-bar">
       <span>첫 달 <b class="red"><span data-sale-price>9,950</span>원</b> · <span data-deadline-label>이번 달 말일 23:59</span> 마감</span>
-      <button class="btn" data-open-signup>50% 쿠폰 받기 <span class="arrow">→</span></button>
+      <button class="btn" data-open-signup data-cta="value_bar">50% 쿠폰 받기 <span class="arrow">→</span></button>
     </div>
   </div>
 </section>
@@ -663,7 +663,7 @@
       <div class="cell"><b data-m>00</b><i>분</i></div>
       <div class="cell"><b data-s>00</b><i>초</i></div>
     </div>
-    <button class="btn btn-lg" data-open-signup>지금 50% 할인받고 구독하기 <span class="arrow">→</span></button>
+    <button class="btn btn-lg" data-open-signup data-cta="final">지금 50% 할인받고 구독하기 <span class="arrow">→</span></button>
   </div>
 </section>
 
@@ -678,7 +678,7 @@
 <div class="sticky-cta" data-sticky aria-hidden="true">
   <div class="inner">
     <div class="txt"><b>첫 달 <span data-sale-price>9,950</span>원 (50% 할인)</b><span class="num">마감까지 <span data-countdown-text>--</span> · 선착순</span></div>
-    <button class="btn" data-open-signup tabindex="-1">구독 시작</button>
+    <button class="btn" data-open-signup data-cta="sticky_bar" tabindex="-1">구독 시작</button>
   </div>
 </div>
 
@@ -762,7 +762,12 @@
   // 앰플리튜드: build.js 가 .env 의 API Key 를 넣은 dist/ 파일에서만 켜짐 (원본은 꺼진 상태)
   var AMPLITUDE_API_KEY = "%%AMPLITUDE_API_KEY%%";
   var amp = AMPLITUDE_API_KEY.indexOf("%%") === -1 && window.amplitude ? window.amplitude : null;
-  var track = function (name, props) { if (amp) amp.track(name, props); };
+  // 주소에 ?debug=1 을 붙이면 보낸 이벤트를 window.__trackLog 에도 남김 (테스트용)
+  if (/[?&]debug=1/.test(location.search)) window.__trackLog = [];
+  var track = function (name, props) {
+    if (window.__trackLog) window.__trackLog.push({ event: name, props: props || {} });
+    if (amp) amp.track(name, props);
+  };
   if (amp) {
     amp.init(AMPLITUDE_API_KEY, {
       autocapture: { attribution: true, pageViews: false, sessions: true, formInteractions: false, fileDownloads: false, elementInteractions: false }
@@ -780,16 +785,25 @@
     });
   }, { passive: true });
 
-  // 버튼이 놓인 위치 이름 (어느 CTA 가 눌렸는지)
-  function ctaLocation(el) {
-    if (el.closest(".topbar")) return "topbar";
-    if (el.closest("header")) return "header";
-    if (el.closest(".sticky-cta")) return "sticky_bar";
-    var sec = el.closest("section");
-    if (!sec) return "other";
-    if (sec.classList.contains("hero")) return "hero";
-    if (sec.classList.contains("final")) return "final";
-    return sec.id || "section";
+  // 주요 CTA: 버튼마다 data-cta 로 ID 를 붙여 두고 노출과 클릭을 같은 ID 로 기록
+  var ctaProps = function (el) {
+    return { cta_id: el.dataset.cta || "unknown", cta_text: el.textContent.replace(/\s+/g, " ").replace("→", "").trim() };
+  };
+
+  // 노출: 버튼이 화면에 절반 이상 보이면 페이지를 열 때마다 버튼별로 한 번 기록
+  var ctaSeen = {}, ctaObserver = null;
+  var markImpression = function (el) {
+    var id = el.dataset.cta;
+    if (!id || ctaSeen[id]) return;
+    ctaSeen[id] = true;
+    track("cta_impression", ctaProps(el));
+    if (ctaObserver) ctaObserver.unobserve(el);
+  };
+  if ("IntersectionObserver" in window) {
+    ctaObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) markImpression(en.target); });
+    }, { threshold: 0.5 });
+    document.querySelectorAll("[data-cta]").forEach(function (el) { ctaObserver.observe(el); });
   }
 
   // 선 아이콘 (24x24)
@@ -954,9 +968,12 @@
 
   function openModal(e) {
     if (e) e.preventDefault();
-    var where = e ? ctaLocation(e.currentTarget) : "other";
-    track("cta_click", { location: where, persona: current });
-    track("signup_open", { location: where });
+    // 눌린 버튼은 이미 보였던 것이므로, 노출이 아직 없으면 먼저 남김 (클릭 수가 노출 수보다 커지지 않게)
+    if (e) markImpression(e.currentTarget);
+    var cta = e ? ctaProps(e.currentTarget) : { cta_id: "unknown", cta_text: "" };
+    cta.persona = current;
+    track("cta_click", cta);
+    track("signup_open", { cta_id: cta.cta_id });
     lastFocus = document.activeElement;
     form.hidden = false; success.hidden = true;
     form.need.value = current;
